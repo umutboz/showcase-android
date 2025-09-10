@@ -5,8 +5,8 @@ import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.widget.AppCompatImageButton;
 
-import com.oneframe.android.showcase.ShowcaseTarget;
-import com.oneframe.android.showcase.ShowcaseTargetSequence;
+import com.agesa.showcase.ShowcaseTarget;
+import com.agesa.showcase.ShowcaseTargetSequence;
 
 import java.util.ArrayList;
 import java.util.List;
