@@ -1,6 +1,9 @@
 package com.agesa.showcase.app;
 
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.text.Layout;
+
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.widget.AppCompatImageButton;
@@ -52,15 +55,28 @@ public final class MainActivity extends BaseActivity {
     DiscountAdapter adapter = new DiscountAdapter(getSupportFragmentManager(), mDiscounts);
 
     mPager.setClipToPadding(false);
-    mPager.setPadding(72, 0, 72, 0);
+    mPager.setPadding(48, 0, 48, 0);
     mPager.setAdapter(adapter);
+    Rect rectA = new Rect(0, 10, 50, 50);
+    ShowcaseTarget target1 = ShowcaseTarget.forView(mSearch, "", "Sağlık Poliçen burada")
+            .outerCircleColor(R.color.colorAccent)
+            .textColor(android.R.color.black).targetRadius(50).
+            drawShadow(true);
 
-    new ShowcaseTargetSequence(this)
+    // Metin: sağ hizala, sağa yaklaştır + biraz aşağı indir
+    target1.textAlignment(Layout.Alignment.ALIGN_OPPOSITE)     // sağ hizalama
+            .instructionHorizontalMarginsDp(24, 0)              // sağ marjı küçült
+            .instructionXOffsetDp(50)                           // biraz daha sağa
+            .instructionYOffsetDp(-32);                          // biraz aşağı
+
+  // Dış çember: biraz küçült + padding azalt
+    target1.outerCircleScale(0.45f)
+            .outerCirclePaddingDp(24);
+
+      new ShowcaseTargetSequence(this)
         .targets(
-            ShowcaseTarget.forView(mSearch, "Search", "You can search bills from here")
-                .outerCircleColor(R.color.colorAccent)
-                .textColor(android.R.color.black)
-                .drawShadow(true),
+          target1,
+                   // .dimenOrSize(getApplicationContext(),200),
             ShowcaseTarget.forView(mBasket, "Basket", "Basket items appear here")
                 .outerCircleColor(R.color.colorAccent)
                 .textColor(android.R.color.black),

@@ -1,0 +1,58 @@
+// build.gradle (Groovy)
+// Uygulandıysa gerek yok, ama genelde lazım:
+apply plugin: 'maven-publish'
+def versionName = (findProperty('libVersion') ?: '0.0.1') as String
+//def versionName = project.hasProperty('libVersion') ? project.property('libVersion') : project.ext.libVersion
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                groupId = 'com.agesa.showcase'
+                artifactId = 'showcase'
+                version = versionName
+
+                artifact("$buildDir/intermediates/full_jar/release/createFullJarRelease/full.jar")
+
+                pom {
+                    name = 'showcase'
+                    description = 'A library for logging mobile app'
+                    url = 'https://nexus3.agesa.com.tr/repository/mobile/'
+
+                    licenses {
+                        license {
+                            name = 'The Apache Software License, Version 2.0'
+                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            name = 'Umut Boz'
+                            email = 'umut.boz@agesa.com.tr'
+                            organization = 'AgeSA'
+                            organizationUrl = 'https://nexus3.agesa.com.tr/'
+                        }
+                    }
+
+                    scm {
+                        url = 'https://bitbucket.agesa.com.tr/scm/maf/mobilelogging_android.git'
+                        connection = 'scm:git:https://bitbucket.agesa.com.tr/scm/maf/mobilelogging_android.git'
+                        developerConnection = 'scm:git:ssh://bitbucket.agesa.com.tr/maf/mobilelogging_android.git'
+                    }
+                }
+            }
+        }
+
+        repositories {
+            maven {
+                name = 'test-repo'
+                url = uri('https://nexus3.agesa.com.tr/repository/mobile/')
+                credentials {
+                    username = findProperty('nexusUsername') ?: System.getenv('NEXUS_USERNAME')
+                    password = findProperty('nexusPassword') ?: System.getenv('NEXUS_PASSWORD')
+                }
+            }
+        }
+    }
+}
